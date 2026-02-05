@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matriz de Decisão — Escala Híbrida</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app-container">
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+            <span class="progress-text" id="progressText">0/6</span>
+        </div>
+
+        <!-- SCREEN A: Home -->
+        <section id="screen-home" class="screen active">
+            <div class="hero-content">
+                <h1>Decida quem entra antes de dar responsabilidade.</h1>
+                <p class="subtitle">Marque o que você viu acontecer. O app te diz o que fazer.</p>
+                <div class="spacer"></div>
+                <button class="btn-primary" onclick="navTo('screen-tutorial')">Começar</button>
+            </div>
+        </section>
+
+        <!-- SCREEN B: Tutorial -->
+        <section id="screen-tutorial" class="screen hidden">
+            <h2>Como preencher</h2>
+            <div class="tutorial-bullets">
+                <div class="bullet">
+                    <span class="icon">📝</span>
+                    <p>Aqui você marca <strong>fatos</strong>, não opinião.</p>
+                </div>
+                <div class="bullet">
+                    <span class="icon">🧠</span>
+                    <p>O app calcula <strong>risco</strong> e função na Equipe Híbrida.</p>
+                </div>
+                <div class="bullet">
+                    <span class="icon">⚖️</span>
+                    <p>Você decide com critério, não no feeling.</p>
+                </div>
+            </div>
+            <div class="spacer"></div>
+            <button class="btn-primary" onclick="navTo('screen-form')">Entendi</button>
+        </section>
+
+        <!-- SCREEN C: Form -->
+        <section id="screen-form" class="screen hidden">
+
+            <!-- Block 1: Identity -->
+            <div class="form-block">
+                <h3>Identificação</h3>
+                <p class="desc">Dados básicos para você não se perder.</p>
+
+                <div class="input-group">
+                    <label>Nome da Candidata *</label>
+                    <input type="text" id="candName" placeholder="Ex: Maria Silva">
+                </div>
+                <div class="input-group">
+                    <label>WhatsApp *</label>
+                    <input type="tel" id="candPhone" placeholder="(00) 00000-0000">
+                </div>
+                <div class="input-group">
+                    <label>Cidade/UF</label>
+                    <input type="text" id="candCity" placeholder="Opcional">
+                </div>
+                <div class="input-group">
+                    <label>Quem indicou?</label>
+                    <input type="text" id="candRef" placeholder="Opcional">
+                </div>
+            </div>
+
+            <!-- Block 2: Signals -->
+            <div class="form-block">
+                <h3>Sinais (Fatos)</h3>
+                <p class="desc">Marque o que aconteceu no Recrutamento Relâmpago.</p>
+
+                <!-- Q1 -->
+                <div class="signal-group">
+                    <label>Cumpriu o prazo do desafio?</label>
+                    <div class="btn-group" data-q="prazo">
+                        <button type="button" class="btn-option" data-val="2">Sim (+2)</button>
+                        <button type="button" class="btn-option" data-val="1">+/- (+1)</button>
+                        <button type="button" class="btn-option" data-val="0">Não (0)</button>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="signal-group">
+                    <label>Seguiu a instrução exata?</label>
+                    <div class="btn-group" data-q="instrucao">
+                        <button type="button" class="btn-option" data-val="2">Sim (+2)</button>
+                        <button type="button" class="btn-option" data-val="1">Quase (+1)</button>
+                        <button type="button" class="btn-option" data-val="0">Não (0)</button>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="signal-group">
+                    <label>Avisou quando teve dificuldade?</label>
+                    <div class="btn-group" data-q="avisou">
+                        <button type="button" class="btn-option" data-val="1">Sim (+1)</button>
+                        <button type="button" class="btn-option" data-val="0">Não (0)</button>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="signal-group">
+                    <label>Tentou burlar regra?</label>
+                    <div class="btn-group" data-q="burlou">
+                        <button type="button" class="btn-option" data-val="0">Não (0)</button>
+                        <button type="button" class="btn-option danger" data-val="-2">Sim (-2)</button>
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="signal-group">
+                    <label>Sumiu/ficou dias sem responder?</label>
+                    <div class="btn-group" data-q="sumiu">
+                        <button type="button" class="btn-option" data-val="0">Não (0)</button>
+                        <button type="button" class="btn-option danger" data-val="-3">Sim (-3)</button>
+                    </div>
+                </div>
+
+                <!-- Q6 -->
+                <div class="signal-group">
+                    <label>Ritmo de resposta</label>
+                    <div class="btn-group" data-q="ritmo">
+                        <button type="button" class="btn-option" data-val="2">Rápido (+2)</button>
+                        <button type="button" class="btn-option" data-val="1">Médio (+1)</button>
+                        <button type="button" class="btn-option" data-val="0">Lento (0)</button>
+                    </div>
+                </div>
+
+                <!-- Q7 - Energy (String based logic) -->
+                <div class="signal-group">
+                    <label>Padrão de energia</label>
+                    <div class="btn-group vertical" data-q="energia">
+                        <button type="button" class="btn-option" data-val="constante">Constante</button>
+                        <button type="button" class="btn-option" data-val="sprinter">Começa forte e some</button>
+                        <button type="button" class="btn-option" data-val="crescer">Quer crescer e pede mais</button>
+                        <button type="button" class="btn-option" data-val="neutro">Não dá pra saber</button>
+                    </div>
+                </div>
+
+                <!-- Q8 -->
+                <div class="signal-group">
+                    <label>Execução do teste</label>
+                    <div class="btn-group" data-q="execucao">
+                        <button type="button" class="btn-option" data-val="2">Fez tudo (+2)</button>
+                        <button type="button" class="btn-option" data-val="1">Metade (+1)</button>
+                        <button type="button" class="btn-option" data-val="0">Nada (0)</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="spacer"></div>
+            <button class="btn-primary" onclick="calculateDecison()">Calcular Decisão</button>
+        </section>
+
+
+        <!-- SCREEN D: Result -->
+        <section id="screen-result" class="screen hidden">
+            <h2>Resultado</h2>
+
+            <!-- Cards -->
+            <div class="result-grid">
+
+                <!-- Profile Brain -->
+                <div class="card">
+                    <small>Quem é essa candidata</small>
+                    <h3 id="resBrainProfile">---</h3>
+                    <p class="card-desc" id="resBrainDesc">---</p>
+                </div>
+
+                <!-- Profile Team -->
+                <div class="card">
+                    <small>Onde encaixa na equipe</small>
+                    <div class="chip" id="resTeamProfile">---</div>
+                    <p class="card-desc" id="resTeamDesc">---</p>
+                </div>
+
+                <!-- Risk Gauge -->
+                <div class="card risk-card">
+                    <small>Medidor de Risco</small>
+                    <div class="gauge-container">
+                        <div class="gauge-bg"></div>
+                        <div class="gauge-fill" id="gaugeFill"></div>
+                    </div>
+                    <p class="risk-label">Risco agora: <strong id="resRiskLabel">---</strong></p>
+                </div>
+
+                <!-- Final Decision -->
+                <div class="card decision-card">
+                    <small>Decisão Sugerida</small>
+                    <h1 id="resDecision">---</h1>
+                </div>
+
+            </div>
+
+            <div class="spacer"></div>
+            <button class="btn-primary mb-2" onclick="navTo('screen-action')">Ver Plano de Ação</button>
+            <button class="btn-secondary" onclick="saveCandidate()">Salvar Candidata</button>
+        </section>
+
+
+        <!-- SCREEN E: Action Plan -->
+        <section id="screen-action" class="screen hidden">
+            <h2 id="actionTitle">Plano de Ação</h2>
+
+            <div id="actionContent" class="action-content">
+                <!-- Dynamic Content Injected Here -->
+            </div>
+
+            <!-- Conditional Section for personal data if Approved -->
+            <div id="personalDataForm" class="hidden mt-4">
+                <h3>Completar Cadastro</h3>
+                <div class="input-group">
+                    <label>CPF</label>
+                    <input type="text" id="candCPF">
+                </div>
+                <div class="input-group">
+                    <label>Endereço</label>
+                    <input type="text" id="candAddress">
+                </div>
+                <div class="input-group">
+                    <label>Chave Pix / Conta</label>
+                    <input type="text" id="candPix">
+                </div>
+            </div>
+
+            <div class="spacer"></div>
+            <button class="btn-primary" onclick="navTo('screen-history')">Concluir e Ver Salvas</button>
+        </section>
+
+
+        <!-- SCREEN F: History/Export -->
+        <section id="screen-history" class="screen hidden">
+            <h2>Histórico de Candidatas</h2>
+
+            <div class="filter-bar">
+                <button class="btn-filter active" onclick="filterHistory('all')">Todas</button>
+                <button class="btn-filter" onclick="filterHistory('Aprovar')">Aprovadas</button>
+                <button class="btn-filter" onclick="filterHistory('Recusar')">Recusadas</button>
+            </div>
+
+            <div id="historyList" class="history-list">
+                <!-- List Items Here -->
+                <p class="empty-msg">Nenhuma candidata salva ainda.</p>
+            </div>
+
+            <div class="spacer"></div>
+            <div class="action-row">
+                <button class="btn-secondary" onclick="exportPDF()">Gerar PDF</button>
+                <button class="btn-secondary" onclick="navTo('screen-home')">Nova Candidata</button>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Custom Print Report Container -->
+    <div id="print-report" class="hidden">
+        <header class="print-header">
+            <h1>Relatório de Candidatas — Escala Híbrida</h1>
+            <p>Histórico e Ações Recomendadas</p>
+        </header>
+        <div id="print-content"></div>
+        <footer class="print-footer">
+            Gerado automaticamente via WebApp Matriz de Decisão
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
